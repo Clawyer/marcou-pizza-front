@@ -78,7 +78,7 @@ li {
 
 .form-signin {
     width: 80vw;
-    height: 375px;
+    height: 275px;
     font-size: 1rem;
     font-weight: 300;
     padding-left: 37px;
@@ -178,7 +178,6 @@ label {
     text-transform: uppercase;
     font-size: 13px;
     padding-left: 15px;
-    padding-bottom: 10px;
     color: rgba(255, 255, 255, 0.7);
     display: block;
 }
@@ -202,7 +201,13 @@ textarea:focus {
     position: absolute;
     display: none;
 }
-
+input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
 [type="checkbox"]:not(:checked) + label,
 [type="checkbox"]:checked + label {
     position: relative;
@@ -328,7 +333,7 @@ textarea:focus {
     transition: all 0.5s ease, top 0.5s ease 0.5s, height 0.5s ease 0.5s, background-color 0.5s ease 0.75s;
 }
 
-.btn-animate-grow {
+/* .btn-animate-grow {
     width: 130%;
     height: 80vh;
     position: relative;
@@ -337,7 +342,7 @@ textarea:focus {
     color: $primary-color;
     background-color: $primary-color-second;
 }
-
+ */
 a.btn-signup:hover,
 a.btn-signin:hover {
     cursor: pointer;
@@ -372,7 +377,7 @@ a.btn-signin:hover {
     font-size: 13px;
     text-decoration: none;
 }
-
+/*
 .welcome {
     width: 100%;
     height: 50px;
@@ -464,29 +469,9 @@ a.btn-goback:hover {
     transition: all 0.5s;
     color: $white;
 }
-
+ */
 /* refresh button styling */
 
-#refresh {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: $white;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.1);
-    padding: 13px 0 0 13px;
-}
-
-.refreshicon {
-    fill: #d3d3d3;
-    transform: rotate(0deg);
-    transition: fill 0.25s ease, transform 0.25s ease;
-}
-
-.refreshicon:hover {
-    cursor: pointer;
-    fill: $salmon-color;
-    transform: rotate(180deg);
+.hidden {
+    display: none;
 }
