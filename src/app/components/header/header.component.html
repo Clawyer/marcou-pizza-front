@@ -1,0 +1,26 @@
+<header [ngClass]="['header', searchClick ? 'header-long' :'']">
+    <div class="header-content">
+        <img class="logo" src="assets/images/logo.png">
+        <div class="header-titles">
+            <h1 class="title">{{title}}</h1>
+            <div class="call">
+                <img src="assets/icons/call.svg" class="icon" />
+                <h3 class="subtitle">{{subtitle}} </h3>
+            </div>
+        </div>
+    </div>
+    <form id="search" *ngIf="isClicked" [ngClass]="['search-bar']">
+        <input type="search" class="form-control" placeholder="Rechercher ..." aria-label="Search" />
+    </form>
+</header>
+
+<div class="menu">
+    <div *ngFor="let button of filterButtons" (click)="setActive(button)"
+        [ngClass]="['menu-item',button.isClicked ? 'active' : 'inactive']">
+        <a routerLink="/{{button.text}}">
+            <div class="menu-item__icon">
+                <img src="assets/icons/{{button.icon}}" class="icon" />
+            </div>
+        </a>
+    </div>
+</div>
