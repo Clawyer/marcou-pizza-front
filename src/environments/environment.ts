@@ -5,12 +5,13 @@
 export const environment = {
   production: false,
   apiUrl: 'https://marcou-pizza.herokuapp.com/api/',
-  apiKey: "AIzaSyDXz7aN-GMIy4uNfm3qxXYkQAF0aDQ0g_I",
-  authDomain: "marcou-pizza.firebaseapp.com",
-  projectId: "marcou-pizza",
-  storageBucket: "marcou-pizza.appspot.com",
-  messagingSenderId: "621853670695",
-  appId: "1:621853670695:web:439afe099be6b27ab57d02"
+  apiKey: 'AIzaSyDXz7aN-GMIy4uNfm3qxXYkQAF0aDQ0g_I',
+  authDomain: 'marcou-pizza.firebaseapp.com',
+  projectId: 'marcou-pizza',
+  storageBucket: 'marcou-pizza.appspot.com',
+  messagingSenderId: '621853670695',
+  appId: '1:621853670695:web:439afe099be6b27ab57d02',
+  addressApi: 'https://api-adresse.data.gouv.fr/search/',
 };
 
 /*

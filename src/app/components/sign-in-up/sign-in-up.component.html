@@ -1,62 +1,292 @@
-<div class="container">
-    <div [ngClass]="[resetBtn ? 'frame-long' : '', 'frame']">
-        <div [ngClass]="signUp ? 'nav-up' : 'nav'">
-            <ul class="links">
-                <li [ngClass]="[resetBtn ? 'signup-inactive' : 'signup-active']"><a
-                        [ngClass]="['btn',resetBtn ? 'active' : '']" (click)="reset()">Connexion</a></li>
-                <li [ngClass]="[resetBtn ? 'signup-active' : 'signup-inactive']">
-                    <a [ngClass]="['btn',resetBtn ? 'active' : '' ]" (click)="reset()">S'inscrire </a>
-                </li>
-            </ul>
-        </div>
-        <div>
-            <form [ngClass]="[resetBtn ? 'form-signin-left' : '', 'form-signin']" [formGroup]="loginForm" (ngSubmit)="signInSubmit()">
-                <label for="email">Email</label>
-                <input class="form-styling" type="text" formControlName="email" placeholder="" />
-                <label for="password">Mot de passe</label>
-                <input class="form-styling" type="text" formControlName="password" placeholder="" />
-                <input type="checkbox" id="checkbox" />
-                <label for="checkbox"><span class="ui"></span>Rester connecté</label>
-                <button [ngClass]="[signIn ? 'btn-animate-grow' : '', 'btn-animate']">
-                    <a class="btn-signin" (click)="signInClick()">Connexion</a>
+<main class="main">
+    <div  *ngIf="!isLoggedIn">
+        <input type="checkbox" id="chk" aria-hidden="true" />
+        <div class="signup" [ngClass]="[register ? 'active' : 'block-scroll']">
+            <!-- Form starts -->
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" id="registerForm">
+                <label for="chk" (click)="switch()" class="signup-label" #signUp aria-hidden="true">Inscription</label>
+                <div>
+                    <!-- Gender -->
+                    <div class="gender form-group">
+                        <label>Sexe *</label>
+                        <div class="gender-select">
+                            <div>
+                                <input id="male" type="radio" name="gender" formControlName="gender" value="male"
+                                    checked />
+                                <label class="custom-control-label" for="male">Homme</label>
+                            </div>
+                            <div>
+                                <input id="female" type="radio" name="gender" formControlName="gender" value="female" />
+                                <label class="custom-control-label" for="female">Femme</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Full name -->
+                    <div formGroupName="fullName">
+                        <div class="form-group">
+                            <label [ngClass]="{
+                     error:
+                     submitted && myRegistrationForm['fullName']['controls'].firstName.errors
+                     }">
+                                Prénom *</label>
+                            <input type="text" class="form-control" formControlName="firstName" [ngClass]="{
+                     error:
+                     submitted && myRegistrationForm['fullName']['controls'].firstName.errors
+                     }" />
+                            <!-- error block -->
+                            <div class="invalid-feedback" *ngIf="
+                     submitted &&
+                     myRegistrationForm['fullName']['controls'].firstName.errors?.required
+                     ">
+                                <sup>*</sup>Veuillez entrer votre prénom
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                     submitted &&
+                     myRegistrationForm['fullName']['controls'].firstName.errors?.minlength
+                     ">
+                                <sup>*</sup>Le nom doit être d'au moins 2 caractères
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                     submitted &&
+                     myRegistrationForm['fullName']['controls'].firstName.errors?.pattern
+                     ">
+                                <sup>*</sup>Aucun caractère spécial n'est autorisé
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label [ngClass]="{
+                     error:
+                     submitted && myRegistrationForm['fullName']['controls'].lastName.errors
+                     }">
+                                Nom *</label>
+                            <input type="text" class="form-control" formControlName="lastName" [ngClass]="{
+                     error:
+                     submitted && myRegistrationForm['fullName']['controls'].lastName.errors
+                     }" />
+                            <!-- error block -->
+                            <div class="invalid-feedback" *ngIf="
+                     submitted &&
+                     myRegistrationForm['fullName']['controls'].lastName.errors?.required
+                     ">
+                                <sup>*</sup>Veuillez entrer votre nom
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label [ngClass]="{ error: submitted && myRegistrationForm['email'].errors }">Email *</label>
+                        <input type="email" class="form-control" formControlName="email"
+                            [ngClass]="{ error: submitted && myRegistrationForm['email'].errors }" ngModel
+                            [email]="true" />
+                        <!-- error block -->
+                        <div class="invalid-feedback"
+                            *ngIf="submitted && myRegistrationForm['email'].errors?.['required']">
+                            <sup>*</sup>Veuillez Entrer votre email
+                        </div>
+                        <div class="invalid-feedback"
+                            *ngIf="submitted && myRegistrationForm['email'].errors?.['pattern']">
+                            <sup>*</sup>Veuillez Entrer une adresse email valide
+                        </div>
+                    </div>
+                    <!-- Phone number -->
+                    <div class="form-group">
+                        <label
+                            [ngClass]="{ error: submitted && myRegistrationForm['phoneNumber'].errors }">Téléphone</label>
+                        <input type="text" class="form-control" formControlName="phoneNumber"
+                            [ngClass]="{ error: submitted && myRegistrationForm['phoneNumber'].errors }" />
+                        <!-- error block -->
+                        <div class="invalid-feedback"
+                            *ngIf="submitted && myRegistrationForm['phoneNumber'].errors?.['minlength']">
+                            <sup>*</sup>Le numéro de téléphone doit être de 10 chiffres
+                        </div>
+                        <div class="invalid-feedback"
+                            *ngIf="submitted && myRegistrationForm['phoneNumber'].errors?.['maxlength']">
+                            <sup>*</sup>Le numéro de téléphone doit être de 10 chiffres
+                        </div>
+                        <div class="invalid-feedback"
+                            *ngIf="submitted && myRegistrationForm['phoneNumber'].errors?.['pattern']">
+                            <sup>*</sup>Veuillez entrer un numéro de téléphone valide
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="address-select" formGroupName="address">
+                    <div class="form-group">
+                        <label [ngClass]="{
+                                      error: submitted && myRegistrationForm['address']['controls'].addressLine1.errors
+                                      }">Adresse ligne 1</label>
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="selectedAddress" [matAutocomplete]="auto"
+                                formControlName="addressLine1" [ngClass]="{
+                  error: submitted && myRegistrationForm['address']['controls'].addressLine1.errors
+                  }">
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let address of filteredAddresses" [value]="address">
+                                        {{address.properties.label}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                        <!-- error block -->
+                        <div class="invalid-feedback" *ngIf="
+                  submitted &&
+                  myRegistrationForm['address']['controls'].addressLine1.errors?.required
+                  ">
+                            <sup>*</sup>Veuillez entre votre adresse
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label [ngClass]="{
+                  error: submitted && myRegistrationForm['address']['controls'].addressLine2.errors
+                  }">Adresse ligne 2</label>
+                        <input type="text" class="form-control" formControlName="addressLine2" />
+                    </div>
+                    <div class="zip-country">
+                        <div class="form-group">
+                            <label [ngClass]="{
+                                  error: submitted && myRegistrationForm['address']['controls'].city.errors
+                                  }">Ville</label>
+                            <input type="text" class="form-control" formControlName="city" [ngClass]="{
+                                  error: submitted && myRegistrationForm['address']['controls'].city.errors
+                                  }" [value]="selectedAddress.city" />
+                            <!-- error block -->
+                            <div class="invalid-feedback" *ngIf="
+                                  submitted && myRegistrationForm['address']['controls'].city.errors?.required
+                                  ">
+                                <sup>*</sup>Veuillez entrer votre ville
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label [ngClass]="{
+                                  error:
+                                  submitted && myRegistrationForm['address']['controls'].zip.errors
+                                  }">Code postal</label>
+                            <input [value]="selectedAddress.citycode" formControlName="zip" [ngClass]="{
+                               error:
+                               submitted && myRegistrationForm['address']['controls'].zip.errors
+                               }">
+
+                            <!-- error block -->
+                            <div class="invalid-feedback" *ngIf="
+                                  submitted &&
+                                  myRegistrationForm['address']['controls'].zip.errors?.required
+                                  ">
+                                <sup>*</sup>Veuillez entrer votre code postal
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Password -->
+                <div formGroupName="PasswordValidation">
+                    <div>
+                        <div class="form-group">
+                            <label [ngClass]="{
+                     error:
+                     submitted &&
+                     myRegistrationForm['PasswordValidation']['controls'].password.errors
+                     }">Mot de passe *</label>
+                            <input type="password" class="form-control" formControlName="password" [ngClass]="{
+                     error:
+                     submitted &&
+                     myRegistrationForm['PasswordValidation']['controls'].password.errors
+                     }" />
+                            <!-- error block -->
+                            <div class="invalid-feedback" *ngIf="
+                     submitted &&
+                     myRegistrationForm['PasswordValidation']['controls'].password.value?.length === 0
+                     ">
+                                <sup>*</sup>Veuillez entrer votre mot de passe
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                                           submitted &&
+                                           myRegistrationForm['PasswordValidation']['controls'].password.errors?.['minlength']
+                                           ">
+                                <sup>*</sup>Le mot de passe doit être de 8 caractères minimum
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label [ngClass]="{
+                     error:
+                     submitted &&
+                     myRegistrationForm['PasswordValidation']['controls'].confirmPassword
+                     .errors
+                     }">Retapez votre mot de passe *</label>
+                            <input type="password" class="form-control" formControlName="confirmPassword" [ngClass]="{
+                     error:
+                     submitted &&
+                     myRegistrationForm['PasswordValidation']['controls'].confirmPassword
+                     .errors
+                     }" />
+                            <!-- error block -->
+
+                            <div class="invalid-feedback" *ngIf="
+                   submitted &&
+                   myRegistrationForm['PasswordValidation']['controls'].confirmPassword.errors
+                   ">
+                                <sup>*</sup>Les mots de passe ne correspondent pas
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Super Powers Dynamically-->
+                <!-- Submit Button -->
+                <button type="submit" class="signup-btn">
+                    S'inscrire
                 </button>
             </form>
-
-            <form [ngClass]="[resetBtn ? 'form-signup-left' : '', 'form-signup', signUp ? 'form-signup-down' : '' ]"
-                [formGroup]="registerForm" (ngSubmit)="signUpSubmit()">
-                <label for="firstName">Prénom</label>
-                <input class="form-styling" type="text" formControlName="firstName" placeholder="" />
-                <label for="lastName">Nom</label>
-                <input class="form-styling" type="text" formControlName="lastName" placeholder="" />
-                <label for="email">Email</label>
-                <input class="form-styling" type="text" formControlName="email" placeholder="" />
-                <label for="password">Mot de passe</label>
-                <input class="form-styling" type="text" formControlName="password" placeholder="" />
-                <label for="confirmpassword">Confirmation du mot de passe</label>
-                <input class="form-styling" type="text" formControlName="confirmpassword" placeholder="" />
-                <button class="btn-signup" (click)="signUpClick()">Sign Up</button>
-            </form>
-
-            <div [ngClass]="[signUp ? 'success-left' : '','success']">
-                <svg width="270" height="270" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" id="check"
-                    [ngClass]="[checked ? 'checked' : '']" path fill="#ffffff" d="M40.61,23.03L26.67,36.97L13.495,23.788c-1.146-1.147-1.359-2.936-0.504-4.314
-                  c3.894-6.28,11.169-10.243,19.283-9.348c9.258,1.021,16.694,8.542,17.622,17.81c1.232,12.295-8.683,22.607-20.849,22.042
-                  c-9.9-0.46-18.128-8.344-18.972-18.218c-0.292-3.416,0.276-6.673,1.51-9.578" />
-                <div class="successtext">
-                    <p> Merci ! Vérifiez vos emails pour confirmer votre inscription</p>
+            <!-- Form ends -->
+        </div>
+        <div class="login" [ngClass]="[register ? 'disabled' : 'active']">
+            <label (click)="scroll(signUp)" class="signin-label" for="chk" aria-hidden="true">Connexion</label>
+            <form (ngSubmit)="login()" [formGroup]="loginForm">
+                <div class="form-group">
+                    <label [ngClass]="{ error: submitted && myLoginForm['email'].errors }">Email *</label>
+                    <input type="email" class="form-control" formControlName="email"
+                        [ngClass]="{ error: submitted && myLoginForm['email'].errors }" ngModel [email]="true" />
+                    <!-- error block -->
+                    <div class="invalid-feedback" *ngIf="submitted && myLoginForm['email'].errors?.['required']">
+                        <sup>*</sup>Veuillez Entrer votre email
+                    </div>
+                    <div class="invalid-feedback" *ngIf="submitted && myLoginForm['email'].errors?.['pattern']">
+                        <sup>*</sup>Veuillez Entrer une adresse email valide
+                    </div>
+                    <div class="invalid-feedback" *ngIf="submitted && errorMessage.length > 0">
+                        <sup>*</sup>{{ errorMessage }}
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div [ngClass]="[resetBtn ? 'forgot-left' : 'forgot', signIn ? 'forgot-fade' : '']">
-            <a href="#">Mot de passe oublié ?</a>
-        </div>
-
-        <div id="account" [ngClass]="[signIn ? '' : 'hidden']">
-            <div [ngClass]="[signIn ? 'cover-photo-down' : '','cover-photo']"></div>
-            <div [ngClass]="[signIn ? 'profile-photo-down' : '','profile-photo']"></div>
-            <h1 [ngClass]="[signIn ? 'welcome-left' : '','welcome']">Welcome, Chris</h1>
+                <div class="form-group">
+                    <label [ngClass]="{
+                                     error:
+                                     submitted &&
+                                     myLoginForm['password'].errors
+                                     }">Mot de passe *</label>
+                    <input type="password" class="form-control" formControlName="password" [ngClass]="{
+                                     error:
+                                     submitted &&
+                                     myLoginForm['password'].errors
+                                     }" />
+                    <!-- error block -->
+                    <div class="invalid-feedback" *ngIf="
+                                     submitted &&
+                                     myLoginForm['password'].value?.length === 0
+                                     ">
+                        <sup>*</sup>Veuillez entrer votre mot de passe
+                    </div>
+                    <div class="invalid-feedback" *ngIf="
+                                                           submitted &&
+                                                           myLoginForm['password'].errors?.['minlength']
+                                                           ">
+                        <sup>*</sup>Le mot de passe doit être de 8 caractères minimum
+                    </div>
+                </div>
+                <button>Connexion</button>
+            </form>
         </div>
     </div>
-</div>
+</main>
