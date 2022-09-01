@@ -17,7 +17,6 @@ export class FooterComponent implements OnInit {
   setActive(button: any): void {
     for (let but of this.filterButtons) {
       but.isClicked = false;
-      this.changeService.searchClicked(!this.searchClick);
     }
     if (button.text === 'search') {
       this.changeService.searchClicked(!this.searchClick);

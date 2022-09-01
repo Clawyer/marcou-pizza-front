@@ -31,6 +31,7 @@ import {
   distinctUntilChanged,
   filter,
 } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in-up',
@@ -89,7 +90,7 @@ export class SignInUpComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private fb: FormBuilder,
     private geoApiGouvAddressService: GeoApiGouvAddressService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
   reloadPage(): void {
     window.location.reload();
