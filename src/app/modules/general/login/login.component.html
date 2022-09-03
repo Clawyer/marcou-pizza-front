@@ -1,0 +1,37 @@
+<div class="login">
+    <h1>Connexion</h1>
+    <form (ngSubmit)="login()" [formGroup]="loginForm">
+        <div class="form-group">
+            <mat-form-field appearance="outline">
+                <mat-label>Entrez votre email </mat-label>
+                <input matInput placeholder="pat@example.com" formControlName="email" required>
+                <mat-icon matSuffix aria-hidden="false" aria-label="mail icon" fontIcon="mail"></mat-icon>
+                <mat-error *ngIf="myLoginForm['email'].errors?.['required']"><sup>* </sup>Veuillez Entrer votre email
+                </mat-error>
+                <mat-error *ngIf="myLoginForm['email'].errors?.['pattern']"><sup>* </sup>Veuillez Entrer une adresse
+                    email valide
+                </mat-error>
+                <mat-error *ngIf="submitted && errorMessage.length > 0"><sup>* </sup>{{ errorMessage }}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline">
+                <mat-label>Entrez votre mot de passe </mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+                <mat-error *ngIf="myLoginForm['password'].value?.length === 0 "><sup>* </sup>Veuillez entrer votre mot de
+                    passe</mat-error>
+                <mat-error *ngIf="myLoginForm['password'].errors?.['minlength']"><sup>* </sup>Le mot de passe doit être
+                    de 8 caractères minimum</mat-error>
+                <button class="hide-password" type="button"  matSuffix (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-error *ngIf="submitted && errorMessage.length > 0"><sup>* </sup>{{errorMessage}}</mat-error>
+        </div>
+        <button class="login-btn">Connexion</button>
+        <div id="signin-wrapper">
+            <a routerLink="/signup">Pas encore inscrit ?</a>
+        </div>
+    </form>
+</div>

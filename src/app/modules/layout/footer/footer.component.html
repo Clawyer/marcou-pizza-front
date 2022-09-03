@@ -1,0 +1,15 @@
+<footer class="menu">
+    <div *ngFor="let button of buttons" (click)="setActive(button.text)"
+        [ngClass]="['menu-item',button.isClicked ? 'active' : 'inactive']">
+        <a *ngIf="button.text !== 'search'; else searchBlock" routerLinkActive="active" routerLink="{{button.path}}">
+            <div class="menu-item__icon">
+                <img src="assets/icons/{{button.icon}}" class="icon" />
+            </div>
+        </a>
+        <ng-template #searchBlock>
+            <div class="menu-item__icon">
+                <img src="assets/icons/{{button.icon}}" class="icon" />
+            </div>
+        </ng-template>
+    </div>
+</footer>

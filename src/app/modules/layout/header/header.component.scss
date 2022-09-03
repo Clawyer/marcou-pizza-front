@@ -1,0 +1,116 @@
+@import "src/styles";
+
+//vars
+$white: #fff;
+$purple: #5b37b7;
+$pink: #c9379d;
+$ocher: #e6a919;
+$cyan: #1194aa;
+$transition: 0.3s ease;
+
+h1,
+h3 {
+    margin: 0;
+    color: $black;
+    text-transform: uppercase;
+}
+
+
+.header {
+    display: flex;
+    flex-flow: column;
+    gap: 2rem;
+    padding: 1rem 1.5rem;
+    height: 7rem;
+    background-color: $salmon-color;
+    transition: all 0.4s ease-in-out;
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
+    .logo {
+        width: 4.5rem;
+    }
+    .header-titles {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: right;
+        gap: 0.5rem;
+        height: 100%;
+        width: 100%;
+        .title {
+            width: 100%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: $black;
+            font-family: $font-big-title;
+            text-align: right;
+        }
+        .subtitle {
+            font-size: 1rem;
+            color: $black;
+            font-family: $font-subtitle;
+        }
+    }
+    .call {
+        width: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        gap: 1rem;
+    }
+    .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        animation: fadeIn 0.5s linear;
+    }
+
+    .search-bar input {
+        height: 40px;
+        width: 100%;
+        border-radius: 20px;
+        background-color: $black;
+        color: $secondary-color;
+        font-family: $font-text;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0 10px;
+        border: none;
+        outline: none;
+        transition: all 0.3s ease-in-out;
+        &:focus {
+            background-color: $secondary-color;
+            color: $primary-color-second;
+        }
+    }
+}
+.header-long {
+    transition: all 0.4s ease-in-out;
+    height: 11.5rem;
+}
+.icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.hidden {
+    display: none;
+    .header-long {
+        height: 9.5rem;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
