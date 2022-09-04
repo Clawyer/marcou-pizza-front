@@ -17,19 +17,11 @@ import { FooterComponent } from './modules/layout/footer/footer.component';
 import { HeaderComponent } from './modules/layout/header/header.component';
 import { ProfileComponent } from './modules/general/profile/profile.component';
 import { AdminComponent } from './modules/general/admin/admin.component';
-
+import { ConfirmEmailComponent } from './modules/general/signup/confirm-email/confirm-email.component';
 
 // Material Modules
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatRadioModule } from '@angular/material/radio';
-import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
- import { MatStepperModule } from '@angular/material/stepper';
-
-
+import { NgMaterialModule } from './ng-material/ng-material.module';
+import { SnackbarComponent } from './modules/layout/ng-material/snack-bar/snack-bar.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +33,7 @@ import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
     SignupComponent,
     NotFoundComponent,
     ProfileComponent,
+    ConfirmEmailComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,14 +44,7 @@ import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
     FormsModule,
     HttpClientModule,
     GeoApiGouvAddressModule.forRoot(),
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatRadioModule,
-    NgxMatIntlTelInputComponent,
-    MatStepperModule,
+    NgMaterialModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent],

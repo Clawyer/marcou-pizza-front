@@ -1,3 +1,4 @@
+@import 'src/styles';
 .app {
     display: flex;
     flex-direction: column;
@@ -5,4 +6,5 @@
 }
 main {
     flex: 1 1 auto;
+    background-color: $primary-color-second;
 }

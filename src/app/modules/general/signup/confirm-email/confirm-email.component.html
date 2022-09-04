@@ -1,0 +1,29 @@
+<div class="card-wrapper">
+    <mat-card class="confirm-card">
+        <mat-card-header>
+            <mat-card-title>Confirmation de votre email </mat-card-title>
+            <mat-card-subtitle>
+                Bienvenue {{userName}}!  Plus qu'une étape pour finaliser votre inscription!
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div>
+                Un email de confirmation a été envoyé à <strong>{{userEmail}}</strong>
+            </div>
+            <div>
+                Veuillez cliquer sur le lien de confirmation pour finaliser votre inscription.
+            </div>
+            <div>
+                Si vous n'avez pas reçu l'email, veuillez cliquer sur le bouton ci-dessous pour en recevoir un nouveau.
+            </div>
+
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-raised-button (click)="timeLeft === 0 ? resendEmail(userEmail): startTimer()"
+                color="accent">{{timeLeft === 0 ? 'Renvoyer un email' : timeLeft }}</button>
+        </mat-card-actions>
+    </mat-card>
+
+</div>

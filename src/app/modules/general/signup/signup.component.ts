@@ -33,6 +33,7 @@ import {
 } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
+import { SnackBarService } from 'src/app/_services/snack-bar.service';
 
 @Component({
   selector: 'app-signup',
@@ -42,19 +43,22 @@ import { MatStepper } from '@angular/material/stepper';
 export class SignupComponent implements OnInit {
   submitted = false;
   errorMessage = '';
-
   isLoggedIn = false;
   isLoginFailed = false;
   roles: string[] = [];
   address: string = '';
   url = env.addressApi + this.address;
   filteredAddresses: any;
-  isLoading = false;
+  isLoading: boolean = false;
+  formSent: boolean = false;
+  formLoading: boolean = false;
   minLengthTerm = 3;
   selectedAddress: any = '';
   hide = true;
   isLinear = false;
   errorMsg!: string;
+  formData: any = {};
+  addressData: any = {};
   @ViewChild('stepper') stepper: MatStepper | any;
 
   constructor(
@@ -63,13 +67,15 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder,
     private geoApiGouvAddressService: GeoApiGouvAddressService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackBarService
   ) {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
     }
   }
+
   reloadPage(): void {
     window.location.reload();
   }
@@ -92,7 +98,14 @@ export class SignupComponent implements OnInit {
           Validators.pattern('^[_A-z0-9]*((-|s)*[_A-z0-9])*$'),
         ],
       ],
-      lastName: ['', [Validators.required]],
+      lastName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('^[_A-z0-9]*((-|s)*[_A-z0-9])*$'),
+        ],
+      ],
     }),
     email: [
       '',
@@ -161,6 +174,9 @@ export class SignupComponent implements OnInit {
     this.addressForm.reset({
       address: { addressLine1: '', addressLine2: '', city: '', zip: '' },
     });
+    this.snackBarService.success(
+      'Le formulaire a été réinitialisé avec succès'
+    );
   }
 
   move() {
@@ -171,29 +187,23 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    if (this.registrationForm.invalid) {
+    if (this.registrationForm.invalid || this.addressForm.invalid) {
+      this.snackBarService.error('Veuillez remplir tous les champs');
       this.move();
+      return false;
     } else {
       const data = {
         ...this.registrationForm.value,
         ...this.addressForm.value,
       };
 
-      console.log(data);
-    }
-    /*   if (!this.registrationForm.valid) {
-      // alert('Veuillez remplir tous les champs obligatoires svp');
-      return false; */
-    // } else {
-    /* let formData: any = {};
-      let addressData: any = {};
       const exclude = ['address', 'PasswordValidation'];
-      Object.keys(this.registrationForm.get('address')!.value).forEach((k) => {
-        let value = this.registrationForm.get(['address', k])?.value;
+      Object.keys(this.addressForm.get('address')!.value).forEach((k) => {
+        let value = this.addressForm.get(['address', k])?.value;
         if (value.length > 0)
-          addressData[k] = this.registrationForm.get(['address', k])?.value;
+          this.addressData[k] = this.addressForm.get(['address', k])?.value;
       });
-      formData['password'] = this.registrationForm.get([
+      this.formData['password'] = this.registrationForm.get([
         'PasswordValidation',
         'password',
       ])?.value;
@@ -203,33 +213,36 @@ export class SignupComponent implements OnInit {
           typeof this.registrationForm.get(key)!.value === 'string' &&
           value.length > 0
         ) {
-          formData[key] = this.registrationForm.get(key)!.value;
+          this.formData[key] = this.registrationForm.get(key)!.value;
         } else {
           if (!exclude.includes(key)) {
             Object.keys(this.registrationForm.get(key)!.value).forEach((k) => {
               let value = this.registrationForm.get([key, k])?.value;
               if (value.length > 0) {
-                formData[k] = this.registrationForm.get([key, k])?.value;
+                this.formData[k] = this.registrationForm.get([key, k])?.value;
               }
             });
           }
         }
       });
-      if (addressData.length > 0) formData['address'] = addressData;
-      return console.log(formData);
- */
-    /*  return this.authService.register(formData).subscribe({
+      if (Object.keys(this.addressData).length > 0)
+        this.formData['address'] = this.addressData;
+      this.formLoading = true;
+      return this.authService.register(this.formData).subscribe({
         next: (data) => {
-          console.log(data);
+          this.errorMessage = '';
+          this.formSent = true;
+          this.formLoading = false;
         },
         error: (err: any) => {
           console.log(err);
           this.errorMessage = err.error.message;
           this.isLoginFailed = true;
+          this.formLoading = false;
         },
         complete: () => console.info('complete'),
-      }); */
-    //}
+      });
+    }
   }
 
   ngOnInit(): void {

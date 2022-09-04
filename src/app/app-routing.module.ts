@@ -5,6 +5,7 @@ import { HomeComponent } from './modules/general/home/home.component';
 import { LoginComponent } from './modules/general/login/login.component';
 import { NotFoundComponent } from './modules/general/not-found/not-found.component';
 import { ProfileComponent } from './modules/general/profile/profile.component';
+import { ConfirmEmailComponent } from './modules/general/signup/confirm-email/confirm-email.component';
 import { SignupComponent } from './modules/general/signup/signup.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { IsAdminGuard } from './_guards/is-admin.guard';
@@ -22,13 +23,18 @@ const routes: Routes = [
     path: 'signup',
     component: SignupComponent,
     canActivate: [IsNotSignedInGuard],
+    children: [{ path: 'confirm-email', component: ConfirmEmailComponent }],
   },
   {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [IsSignedInGuard],
   },
-  { path: 'admin', component: AdminComponent, canActivate: [IsSignedInGuard,IsAdminGuard] },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [IsSignedInGuard, IsAdminGuard],
+  },
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({

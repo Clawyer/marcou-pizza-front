@@ -32,6 +32,8 @@ import {
   filter,
 } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService } from 'src/app/_services/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -45,13 +47,18 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   roles: string[] = [];
   hide = true;
+  formSent: boolean = false;
+  formLoading: boolean = false;
+  message: string = '';
+  durationInSeconds = 5;
 
   constructor(
     private authService: AuthService,
     private tokenStorage: TokenStorageService,
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackBarService
   ) {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
@@ -81,27 +88,35 @@ export class LoginComponent implements OnInit {
   login() {
     this.submitted = true;
     if (!this.loginForm.valid) {
-      alert('Veuillez remplir tous les champs obligatoires svp');
+      this.snackBarService.error('Veuillez remplir tous les champs');
       return false;
     } else {
       let formData: any = {};
       Object.keys(this.loginForm.controls).forEach((key) => {
         formData[key] = this.loginForm.get(key)!.value;
       });
+      this.formLoading = true;
       return this.authService.login(formData).subscribe({
         next: (data) => {
+          this.errorMessage = '';
+          this.formSent = true;
+          this.formLoading = false;
           this.tokenStorage.saveUser(data);
           this.isLoginFailed = false;
           this.isLoggedIn = true;
           this.roles = this.tokenStorage.getUser().roles;
-          // navagate to home page
+          this.router.navigate(['/']);
         },
         error: (err: any) => {
           this.errorMessage = err.error.message;
           this.isLoginFailed = true;
-          console.log(this.submitted && this.errorMessage.length > 0);
+          this.formLoading = false;
+          this.snackBarService.error(this.errorMessage);
         },
-        complete: () => console.info('complete'),
+        complete: () =>
+          this.snackBarService.success(
+            `Bonjour ${this.tokenStorage.getUser().fullName} !`
+          ),
       });
     }
   }

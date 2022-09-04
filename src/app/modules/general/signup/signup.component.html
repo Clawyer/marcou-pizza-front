@@ -1,4 +1,4 @@
-<div class="signup">
+<div class="signup" *ngIf="!formSent; else confirm">
     <h1>S'inscrire</h1>
     <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
         <mat-step [stepControl]="registrationForm">
@@ -12,6 +12,9 @@
                             <mat-radio-button value="male">Homme</mat-radio-button>
                             <mat-radio-button value="female">Femme</mat-radio-button>
                         </mat-radio-group>
+                        <mat-error *ngIf="myRegistrationForm['gender'].errors?.['required']">
+                            <sup>* </sup>Veuillez renseigner votre sexe
+                        </mat-error>
                     </div>
                     <!-- Full name -->
                     <div formGroupName="fullName">
@@ -21,17 +24,15 @@
                                 <input matInput formControlName="firstName" required>
                                 <mat-error
                                     *ngIf="myRegistrationForm['fullName']['controls'].firstName.errors?.required">
-                                    <sup>* </sup>Veuillez entrer votre prénom
-
+                                    <sup>* </sup>Veuillez renseigner votre prénom
                                 </mat-error>
                                 <mat-error
                                     *ngIf="myRegistrationForm['fullName']['controls'].firstName.errors?.minlength">
-                                    <sup>* </sup>Le nom doit être d'au moins 2 caractères
+                                    <sup>* </sup>2 caractères minimum
 
                                 </mat-error>
                                 <mat-error *ngIf="myRegistrationForm['fullName']['controls'].firstName.errors?.pattern">
-                                    <sup>* </sup>Aucun caractère spécial
-                                    n'est autorisé
+                                    <sup>* </sup>Aucun caractère spécial n'est autorisé
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -40,11 +41,11 @@
                                 <mat-label>Nom</mat-label>
                                 <input matInput formControlName="lastName" required>
                                 <mat-error *ngIf="myRegistrationForm['fullName']['controls'].lastName.errors?.required">
-                                    <sup>* </sup>Veuillez entrer votre nom
+                                    <sup>* </sup>Veuillez renseigner votre nom
                                 </mat-error>
                                 <mat-error
                                     *ngIf="myRegistrationForm['fullName']['controls'].lastName.errors?.minlength">
-                                    <sup>* </sup>Le nom doit être d'au moins 2 caractères
+                                    <sup>* </sup>2 caractères minimum
                                 </mat-error>
                                 <mat-error *ngIf="myRegistrationForm['fullName']['controls'].lastName.errors?.pattern">
                                     <sup>* </sup>Aucun caractère spécial
@@ -92,7 +93,7 @@
                                 de téléphone doit être de 10 chiffres
                             </mat-error>
                             <mat-error *ngIf="myRegistrationForm['phoneNumber']?.errors?.validatePhoneNumber">
-                                <sup>* </sup>Veuillez entrer un numéro de téléphone valide
+                                <sup>* </sup>Veuillez renseigner un numéro de téléphone valide
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -106,7 +107,7 @@
                                         required>
                                     <mat-error
                                         *ngIf="myRegistrationForm['PasswordValidation']['controls'].password.value?.length === 0">
-                                        <sup>* </sup>Veuillez entrer votre mot de passe
+                                        <sup>* </sup>Veuillez renseigner votre mot de passe
                                     </mat-error>
                                     <mat-error
                                         *ngIf="myRegistrationForm['PasswordValidation']['controls'].password.errors?.['minlength']">
@@ -152,7 +153,7 @@
                             <input matInput [(ngModel)]="selectedAddress" [matAutocomplete]="auto"
                                 formControlName="addressLine1">
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected()">
-                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <mat-option *ngIf="isLoading" class="is-loading">Chargement...</mat-option>
                                 <ng-container *ngIf="!isLoading">
                                     <mat-option *ngFor="let address of filteredAddresses" [value]="address">
                                         {{address.properties.label}}
@@ -179,7 +180,7 @@
                             </mat-form-field>
                             <!-- error block -->
                             <mat-error *ngIf="myaddressForm['address']['controls'].city.errors?.required">
-                                <sup>* </sup>Veuillez entrer votre ville
+                                <sup>* </sup>Veuillez renseigner votre ville
                             </mat-error>
                         </div>
                         <div class="form-group">
@@ -189,7 +190,7 @@
                             </mat-form-field>
                             <!-- error block -->
                             <mat-error *ngIf="myaddressForm['address']['controls'].zip.errors?.required">
-                                <sup>* </sup>Veuillez entrer votre code postal
+                                <sup>* </sup>Veuillez renseigner votre code postal
                             </mat-error>
                         </div>
                     </div>
@@ -205,8 +206,11 @@
             <div class="button-wrapper">
                 <div class="button-group">
                     <button mat-button matStepperPrevious>Précédent</button>
-                    <button mat-button (click)="stepper.reset();formReset(); ">Reset</button>
+                    <button mat-button (click)="stepper.reset();formReset(); ">Recommencer</button>
                 </div>
+                <mat-error *ngIf="submitted && errorMessage.length > 0">
+                    <sup>* </sup>{{ errorMessage }}
+                </mat-error>
                 <button mat-button (click)="onSubmit()">S'inscrire</button>
             </div>
         </mat-step>
@@ -215,3 +219,13 @@
         <a routerLink="/login">Déjà inscrit ?</a>
     </div>
 </div>
+<ng-template #confirm>
+    <div class="verify-email" *ngIf="!formLoading ;else loading">
+        <app-confirm-email userEmail="{{formData.email}}" userName="{{formData.firstName}}"></app-confirm-email>
+    </div>
+</ng-template>
+<ng-template #loading>
+    <div class="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

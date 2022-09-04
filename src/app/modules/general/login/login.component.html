@@ -1,4 +1,4 @@
-<div class="login">
+<div class="login" *ngIf="!formLoading ;else loading">
     <h1>Connexion</h1>
     <form (ngSubmit)="login()" [formGroup]="loginForm">
         <div class="form-group">
@@ -6,9 +6,9 @@
                 <mat-label>Entrez votre email </mat-label>
                 <input matInput placeholder="pat@example.com" formControlName="email" required>
                 <mat-icon matSuffix aria-hidden="false" aria-label="mail icon" fontIcon="mail"></mat-icon>
-                <mat-error *ngIf="myLoginForm['email'].errors?.['required']"><sup>* </sup>Veuillez Entrer votre email
+                <mat-error *ngIf="myLoginForm['email'].errors?.['required']"><sup>* </sup>Veuillez renseigner votre email
                 </mat-error>
-                <mat-error *ngIf="myLoginForm['email'].errors?.['pattern']"><sup>* </sup>Veuillez Entrer une adresse
+                <mat-error *ngIf="myLoginForm['email'].errors?.['pattern']"><sup>* </sup>Veuillez renseigner une adresse
                     email valide
                 </mat-error>
                 <mat-error *ngIf="submitted && errorMessage.length > 0"><sup>* </sup>{{ errorMessage }}</mat-error>
@@ -35,3 +35,12 @@
         </div>
     </form>
 </div>
+<ng-template #loading>
+    <div class="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+<mat-form-field appearance="fill" *ngIf="message.length > 0">
+    <mat-label>Snack bar duration (seconds)</mat-label>
+    <input type="number" [(ngModel)]="durationInSeconds" matInput>
+</mat-form-field>

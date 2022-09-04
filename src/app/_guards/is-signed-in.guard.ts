@@ -19,7 +19,7 @@ export class IsSignedInGuard implements CanActivate {
     const loggedIn = this.authService.isLoggedIn();
 
     if (!loggedIn) {
-      this._router.navigate(['...']);
+      this._router.navigate(['/']);
     }
     return loggedIn;
   }

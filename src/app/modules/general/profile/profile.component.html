@@ -21,7 +21,7 @@
     </ul>
 </div>
 <div *ngIf=" currentUser.roles[0] === 'admin' ">
-<a [routerLink]="['/account/admin']">Admin</a>
+<a [routerLink]="['/admin']">Admin</a>
 </div>
 <ng-template #loggedOut>
     Please login.

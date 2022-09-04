@@ -15,6 +15,7 @@ $height: 100%;
     .mat-stepper-vertical {
         width: 100%;
         background-color: transparent;
+        padding-bottom: 2rem;
     }
     ::ng-deep .mat-step-icon {
         background-color: $salmon-color;
@@ -30,11 +31,18 @@ $height: 100%;
         flex-flow: column;
         justify-content: space-between;
         align-items: center;
-        gap: 1rem;
+        gap: 4rem;
+        button {
+            width: 80%;
+        }
     }
     .button-group {
         display: flex;
         gap: 1rem;
+        width: 80%;
+        > button {
+            width: 100%;
+        }
     }
     button {
         background-color: $salmon-color;
@@ -103,6 +111,9 @@ $height: 100%;
         :ng-deep .mat-radio-label-content {
             padding-left: 1em;
         }
+        ::ng-deep .mat-error {
+            font-size: 75%;
+        }
     }
     #signup-wrapper {
         display: flex;
@@ -113,4 +124,35 @@ $height: 100%;
             text-decoration: none;
         }
     }
+}
+
+
+::ng-deep .mat-raised-button.mat-accent {
+    background-color: $danger-color;
+    color: $white;
+    font-weight: bold;
+    &:hover {
+        background-color: lighten($salmon-color, 10%);
+    }
+}
+.verify-email {
+    background-color: $primary-color-second;
+    height: 100%;
+}
+::ng-deep .mat-error {
+    letter-spacing: 0.6px;
+    display: content;
+}
+
+::ng-deep div.mat-step:nth-child(3) > div:nth-child(2) {
+    .mat-vertical-content {
+        padding: 0;
+    }
+    margin: 0;
+}
+.loading {
+    height: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

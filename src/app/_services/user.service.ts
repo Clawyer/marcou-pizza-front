@@ -20,4 +20,7 @@ export class UserService {
   getAdminBoard(): Observable<any> {
     return this.http.get(API_URL + 'user/data');
   }
+  resendEmailConfirmation(email : string): Observable<any> {
+    return this.http.get(API_URL + 'user/resend-verify-email', { params: { email: email } });
+  }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { fadeAnimation } from './animations';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +19,10 @@ export class AppComponent implements OnInit {
   email: string = '';
   constructor(
     private storageService: TokenStorageService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
+
+
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
 
@@ -41,6 +44,7 @@ export class AppComponent implements OnInit {
       error: (err) => {
         console.log(err);
       },
+
     });
 
     window.location.reload();
