@@ -1,28 +1,51 @@
-<div class="container" *ngIf="currentUser; else loggedOut">
-    <header class="jumbotron">
-        <h3>
-            <strong>{{ currentUser.username }}</strong> Profile
-        </h3>
-    </header>
-    <p>
-        <strong>Token:</strong>
-        {{ currentUser.accessToken.substring(0, 20) }} ...
-        {{ currentUser.accessToken.substr(currentUser.accessToken.length - 20) }}
-    </p>
-    <p>
-        <strong>Email:</strong>
-        {{ currentUser.email }}
-    </p>
-    <strong>Roles:</strong>
-    <ul>
-        <li *ngFor="let role of currentUser.roles">
-            {{ role }}
-        </li>
-    </ul>
+<div class="profile" *ngIf="!isLoading ;else loading">
+    <div class="profile-admin"  *ngIf="currentUser.roles.includes('admin')">
+        <mat-card class="admin-card">
+            <mat-card-header>
+                <img mat-card-avatar class="default-user-img" src="/assets/images/user.jpg" alt="default user image">
+                <mat-card-title>{{currentUser.roles[0]}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+                <button mat-raised-button  [routerLink]="['/admin']" mat-button>Page Admin</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <ng-template #loggedOut>
+        Please login.
+    </ng-template>
+    <mat-accordion class="profile-headers-align" multi>
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>account_circle</mat-icon>
+                    Informations personnelles
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card *ngFor="let info of profileData | keyvalue">
+                <mat-label><strong>{{info.key}}</strong></mat-label>
+                <mat-label>{{info.value}}</mat-label>
+            </mat-card>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>home</mat-icon>
+                    Addresses
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card id="profile-addresses" *ngFor="let address of profileDisplay;">
+                <div *ngFor="let adr of address | keyvalue">
+                    <mat-label><strong>{{adr.key}}</strong></mat-label>
+                    <mat-label>{{adr.value}}</mat-label>
+                </div>
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>
-<div *ngIf=" currentUser.roles[0] === 'admin' ">
-<a [routerLink]="['/admin']">Admin</a>
-</div>
-<ng-template #loggedOut>
-    Please login.
+
+<ng-template #loading>
+    <div class="loading">
+        <mat-spinner></mat-spinner>
+    </div>
 </ng-template>

@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatSnackBarConfig, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import {
+  MatSnackBarConfig,
+  MatSnackBarModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+} from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -11,8 +15,9 @@ import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SnackbarComponent } from '../modules/layout/ng-material/snack-bar/snack-bar.component';
-
-const matSnackbarDefaultConfig: MatSnackBarConfig = {
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
+ import { MatGridListModule } from '@angular/material/grid-list'; const matSnackbarDefaultConfig: MatSnackBarConfig = {
   verticalPosition: 'top',
   horizontalPosition: 'right',
   duration: 2500,
@@ -34,6 +39,9 @@ const matSnackbarDefaultConfig: MatSnackBarConfig = {
     NgxMatIntlTelInputComponent,
     MatStepperModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatGridListModule,
   ],
   exports: [
     MatSnackBarModule,
@@ -49,6 +57,9 @@ const matSnackbarDefaultConfig: MatSnackBarConfig = {
     MatStepperModule,
     MatProgressSpinnerModule,
     SnackbarComponent,
+    MatTabsModule,
+    MatExpansionModule,
+    MatGridListModule,
   ],
   providers: [
     {
