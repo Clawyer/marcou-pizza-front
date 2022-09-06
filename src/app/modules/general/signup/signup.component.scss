@@ -26,12 +26,19 @@ $height: 100%;
     ::ng-deep .mat-stepper-vertical-line {
         border-left-color: $white;
     }
+    ::ng-deep .mat-step .mat-step-header {
+        background-color: $primary-color-third;
+    }
+    ::ng-deep .mat-vertical-content {
+        padding-top: 1rem;
+    }
     .button-wrapper {
         display: flex;
         flex-flow: column;
         justify-content: space-between;
         align-items: center;
         gap: 4rem;
+        margin-top: 3rem;
         button {
             width: 80%;
         }
@@ -125,7 +132,6 @@ $height: 100%;
         }
     }
 }
-
 
 ::ng-deep .mat-raised-button.mat-accent {
     background-color: $danger-color;
